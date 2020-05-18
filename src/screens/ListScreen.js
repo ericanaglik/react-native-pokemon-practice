@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Image, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, Image, ActivityIndicator, Button } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import pokemon from './pokemon.js'
 
@@ -59,21 +59,24 @@ class ListScreen extends Component {
     });
   };
 
-  searchTypeFunction = text2 => {
+  onPressFire=()=>{
+    const newData = this.arrayholder.filter((item)=>{
+      return item.type[0] === "Fire" || item.type[1] === "Fire" ;
+    })
     this.setState({
-      value2: text2,
+    data: newData
     });
-
-    const newType = this.arrayholder.filter(pokemon => {
-      const itemType = `${pokemon.type[0].toUpperCase()}`;
-      const textType = text2.toUpperCase();
-
-      return itemType.indexOf(textType) > -1;
-    });
+  }
+  onPressElectric=()=>{
+    const newData = this.arrayholder.filter((item)=>{
+      return item.type[0] === "Electric" || item.type[1] === "Electric" ;
+    })
     this.setState({
-      data: newType,
+    data: newData
     });
-  };
+  }
+
+  
 
   renderHeader = () => {
     return (
@@ -86,14 +89,16 @@ class ListScreen extends Component {
         autoCorrect={false}
         value={this.state.value}
       />
-      <SearchBar
-        placeholder="Search by type"
-        lightTheme
-        round
-        onChangeText={text => this.searchTypeFunction(text)}
-        autoCorrect={false}
-        value={this.state.value2}
-      />
+      <Button
+        onPress={this.onPressFire}
+        title="Fire"
+        color="#841584"
+        />
+        <Button
+        onPress={this.onPressElectric}
+        title="Electric"
+        color="#841584"
+        />
       </View>
     );
   };
