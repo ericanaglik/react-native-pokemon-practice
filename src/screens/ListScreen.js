@@ -43,7 +43,7 @@ class ListScreen extends Component {
     );
   };
 
-  searchFilterFunction = text => {
+  searchNameFunction = text => {
     this.setState({
       value: text,
     });
@@ -59,16 +59,42 @@ class ListScreen extends Component {
     });
   };
 
+  searchTypeFunction = text2 => {
+    this.setState({
+      value2: text2,
+    });
+
+    const newType = this.arrayholder.filter(pokemon => {
+      const itemType = `${pokemon.type[0].toUpperCase()}`;
+      const textType = text2.toUpperCase();
+
+      return itemType.indexOf(textType) > -1;
+    });
+    this.setState({
+      data: newType,
+    });
+  };
+
   renderHeader = () => {
     return (
+      <View>
       <SearchBar
-        placeholder="Type Here..."
+        placeholder="Search by name"
         lightTheme
         round
-        onChangeText={text => this.searchFilterFunction(text)}
+        onChangeText={text => this.searchNameFunction(text)}
         autoCorrect={false}
         value={this.state.value}
       />
+      <SearchBar
+        placeholder="Search by type"
+        lightTheme
+        round
+        onChangeText={text => this.searchTypeFunction(text)}
+        autoCorrect={false}
+        value={this.state.value2}
+      />
+      </View>
     );
   };
 
@@ -86,7 +112,7 @@ class ListScreen extends Component {
           data={this.state.data}
           renderItem={({ item }) => {
             return <Text><Image source={item.img_name} 
-            style={{width: 100, height: 100}}/>{item.name}</Text>
+            style={{width: 100, height: 100}}/>{item.name} {item.type[0]} {item.type[1]}</Text>
             
           }}
           keyExtractor={pokemon => pokemon.name}
